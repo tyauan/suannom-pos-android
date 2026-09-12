@@ -1,0 +1,36 @@
+name: Build Suannom POS APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Suannom POS source
+        run: |
+          curl --fail --location --retry 3 \
+            https://suannom-pos.j8j5dd5ckf.chatgpt.site/downloads/suannom-pos-android-source.zip \
+            --output suannom-pos-android-source.zip
+          unzip -q suannom-pos-android-source.zip
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "11"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "7.6.4"
+
+      - name: Build APK
+        run: gradle -p android assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: suannom-pos-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
