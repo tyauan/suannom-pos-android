@@ -12,7 +12,7 @@ jobs:
       - name: Download Suannom POS source
         run: |
           curl --fail --location --retry 3 \
-            https://suannom-pos.j8j5dd5ckf.chatgpt.site/downloads/suannom-pos-android-source.zip \
+            "https://suannom-pos.j8j5dd5ckf.chatgpt.site/downloads/suannom-pos-android-source.zip?v=1.4.1" \
             --output suannom-pos-android-source.zip
           unzip -q suannom-pos-android-source.zip
 
@@ -33,6 +33,6 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: suannom-pos-apk-1.4.0
+          name: suannom-pos-apk-1.4.1-safe
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
